@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automated Weed Detection</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #a8e063, #56ab2f);
+      color: #fff;
+      text-align: center;
+    }
+    header {
+      background: #333;
+      padding: 20px 0;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #fff;
+    }
+    .container {
+      padding: 20px;
+    }
+    .upload-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+    }
+    input[type="file"] {
+      padding: 10px;
+      font-size: 1rem;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #56ab2f;
+      background: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+    }
+    button:hover {
+      background: #56ab2f;
+      color: #fff;
+    }
+    #results img {
+      margin-top: 20px;
+      max-width: 80%;
+      border: 5px solid #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    footer {
+      margin-top: 20px;
+      padding: 10px 0;
+      background: #333;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Automated Weed Detection and Removal</h1>
+  </header>
+  <div class="container">
+    <div class="upload-box">
+      <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="field_image" accept="image/*" required>
+        <br>
+        <button type="submit">Upload and Detect</button>
+      </form>
+    </div>
+    <div id="results">
+      <!-- Annotated results will be displayed here -->
+    </div>
+  </div>
+  <footer>
+    © 2024 Automated Weed Detection and Removal | Designed by Mantu kumar❤️
+  </footer>
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch('/upload', { method: 'POST', body: formData });
+      const result = await response.json();
+      document.getElementById('results').innerHTML = `
+        <h3>Processed Image:</h3>
+        <img src="data:image/png;base64,${result.image}" alt="Annotated Image">
+      `;
+    });
+  </script>
+</body>
+</html>
